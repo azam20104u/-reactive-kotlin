@@ -1,0 +1,19 @@
+openapi: 3.0.0
+info:
+  title: Item Domain Model
+  version: 1.0.0
+paths: {}
+
+components:
+  schemas:
+    ItemDomain:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        price:
+          type: number
+        category:
+          type: string

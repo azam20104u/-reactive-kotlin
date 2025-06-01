@@ -1,0 +1,111 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.9.25'
+    id 'org.jetbrains.kotlin.plugin.spring' version '1.9.25'
+    id 'org.springframework.boot' version '3.5.0'
+    id 'io.spring.dependency-management' version '1.1.7'
+    id 'org.openapi.generator' version '7.3.0'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
+    implementation 'io.projectreactor.kotlin:reactor-kotlin-extensions'
+    implementation 'org.jetbrains.kotlin:kotlin-reflect'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-reactor'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'io.projectreactor:reactor-test'
+    testImplementation 'org.jetbrains.kotlin:kotlin-test-junit5'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
+    implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.15.2'
+}
+
+kotlin {
+    compilerOptions {
+        freeCompilerArgs.addAll '-Xjsr305=strict'
+    }
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+def generatedOutput = "$buildDir/generated/src/main/kotlin"
+
+task generateWebModels(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
+    generatorName = "kotlin"
+    inputSpec = "$rootDir/spec/web.yaml"
+    outputDir = generatedOutput
+    modelPackage = "com.example.demo.web.model"
+    globalProperties = [
+            models: "",
+            supportingFiles: "false",
+            apis: "false"
+    ]
+    configOptions = [
+            sourceFolder: "",
+            serializationLibrary: "jackson",
+            modelNameSuffix: "Web"
+    ]
+}
+
+task generateDomainModels(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
+    generatorName = "kotlin"
+    inputSpec = "$rootDir/spec/domain.yaml"
+    outputDir = generatedOutput
+    modelPackage = "com.example.demo.domain.model"
+    globalProperties = [
+            models: "",
+            supportingFiles: "false",
+            apis: "false"
+    ]
+    configOptions = [
+            sourceFolder: "",
+            serializationLibrary: "jackson",
+            modelNameSuffix: "Domain"
+    ]
+}
+
+task generateRepositoryModels(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
+    generatorName = "kotlin"
+    inputSpec = "$rootDir/spec/repository.yaml"
+    outputDir = generatedOutput
+    modelPackage = "com.example.demo.repository.dto"
+    globalProperties = [
+            models: "",
+            supportingFiles: "false",
+            apis: "false"
+    ]
+    configOptions = [
+            sourceFolder: "",
+            serializationLibrary: "jackson",
+            modelNameSuffix: "DTO"
+    ]
+}
+
+task generateAllModels {
+    dependsOn generateWebModels, generateDomainModels, generateRepositoryModels
+}
+
+sourceSets {
+    main {
+        kotlin {
+            srcDir generatedOutput
+        }
+    }
+}
+
+compileKotlin.dependsOn generateAllModels

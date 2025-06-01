@@ -1,0 +1,62 @@
+openapi: 3.0.0
+info:
+  title: Item API
+  version: 1.0.0
+paths:
+  /items:
+    post:
+      summary: Create an item
+      operationId: createItem
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ItemWebRequest'
+      responses:
+        '200':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemWebResponse'
+    get:
+      summary: Get all items
+      operationId: getAllItems
+      responses:
+        '200':
+          description: List of items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ItemWebResponse'
+
+components:
+  schemas:
+    ItemWebRequest:
+      type: object
+      required:
+        - name
+        - price
+        - category
+      properties:
+        name:
+          type: string
+        price:
+          type: number
+        category:
+          type: string
+
+    ItemWebResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        price:
+          type: number
+        category:
+          type: string
