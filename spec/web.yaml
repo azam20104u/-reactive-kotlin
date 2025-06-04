@@ -2,6 +2,7 @@ openapi: 3.0.0
 info:
   title: Item API
   version: 1.0.0
+
 paths:
   /items:
     post:
@@ -20,6 +21,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ItemWebResponse'
+
     get:
       summary: Get all items
       operationId: getAllItems
@@ -32,6 +34,66 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ItemWebResponse'
+
+  /items/{id}:
+    get:
+      summary: Get item by ID
+      operationId: getItemById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Single item
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemWebResponse'
+        '404':
+          description: Item not found
+
+    put:
+      summary: Update item by ID
+      operationId: updateItem
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ItemWebRequest'
+      responses:
+        '200':
+          description: Updated item
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemWebResponse'
+        '404':
+          description: Item not found
+
+    delete:
+      summary: Delete item by ID
+      operationId: deleteItem
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Item deleted
+        '404':
+          description: Item not found
 
 components:
   schemas:
