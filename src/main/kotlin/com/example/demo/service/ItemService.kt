@@ -11,8 +11,8 @@ class ItemService(
     private val useCase: ItemUseCase
 ) {
     fun create(itemDomain: ItemDomain): Mono<ItemDomain> = useCase.create(itemDomain)
-    fun getAll() : Flux<ItemDomain> = useCase.getAll()
-    fun getById(id: String) : Mono<ItemDomain> = useCase.getById(id)
-    fun update(id: String, itemDomain: ItemDomain) : Mono<ItemDomain> = useCase.update(id, itemDomain)
-    fun delete(id: String) : Mono<Void> = useCase.delete(id)
+    fun getAll(): Flux<ItemDomain> = useCase.getAll()
+    fun getById(id: String): Mono<ItemDomain> = useCase.getById(id)
+    fun update(id: String, itemDomain: ItemDomain): Mono<ItemDomain> = useCase.update(id, itemDomain)
+    fun delete(id: String): Mono<Void> = useCase.delete(id)
 }

@@ -13,7 +13,7 @@ import reactor.core.publisher.Mono
 
 @Repository
 class ItemRepositoryImpl(
-    private val mongoTemplate: ReactiveMongoTemplate,
+    private val mongoTemplate: ReactiveMongoTemplate
 ) : ItemRepository {
     companion object {
         const val COLLECTION_ITEM = "items"

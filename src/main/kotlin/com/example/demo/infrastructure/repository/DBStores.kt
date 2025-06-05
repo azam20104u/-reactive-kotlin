@@ -14,10 +14,12 @@ object DBStores {
     fun findById(id: String): ItemDTO? = store[id]
     fun findAll(): List<ItemDTO> = store.values.toList()
     fun update(id: String, updatedItem: ItemDTO): ItemDTO? {
-        return if(store.containsKey(id)){
+        return if (store.containsKey(id)) {
             store[id] = updatedItem
             updatedItem
-        } else null
+        } else {
+            null
+        }
     }
     fun delete(id: String): Boolean = store.remove(id) != null
 }

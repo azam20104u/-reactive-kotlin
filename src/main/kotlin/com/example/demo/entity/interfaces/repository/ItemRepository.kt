@@ -9,5 +9,4 @@ interface ItemRepository {
     fun findAll(): Flux<ItemDomain>
     fun findById(id: String): Mono<ItemDomain>
     fun deletedBy(id: String): Mono<Void>
-
 }
