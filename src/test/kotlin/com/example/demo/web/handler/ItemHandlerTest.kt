@@ -16,11 +16,12 @@ class ItemHandlerTest :
     DescribeSpec({
         val itemService = mockk<ItemService>()
         val itemHandler = ItemHandler(itemService)
+        val id = "101"
         val itemWebRequest =
             ItemWebRequest(
                 name = "Pen",
                 price = 10.0.toBigDecimal(),
-                category = "Stationery"
+                category = "Stationery",
             )
         val itemDomain = ItemWebDomainMapper.toItemDomain(itemWebRequest)
         describe("itemHandler") {
@@ -49,9 +50,9 @@ class ItemHandlerTest :
                 val request =
                     MockServerRequest
                         .builder()
-                        .pathVariable("id", "101")
+                        .pathVariable("id", id)
                         .build()
-                every { itemService.getById("101") } returns Mono.just(itemDomain)
+                every { itemService.getById(id) } returns Mono.just(itemDomain)
                 val response = itemHandler.getById(request)
                 StepVerifier
                     .create(response)
@@ -64,9 +65,9 @@ class ItemHandlerTest :
                 val request =
                     MockServerRequest
                         .builder()
-                        .pathVariable("id", "101")
+                        .pathVariable("id", id)
                         .body(Mono.just(updated))
-                every { itemService.update("101", updatedDomain) } returns Mono.just(updatedDomain)
+                every { itemService.update(id, updatedDomain) } returns Mono.just(updatedDomain)
                 StepVerifier
                     .create(itemHandler.update(request))
                     .expectNextMatches { it.statusCode().is2xxSuccessful }
@@ -76,9 +77,9 @@ class ItemHandlerTest :
                 val request =
                     MockServerRequest
                         .builder()
-                        .pathVariable("id", "101")
+                        .pathVariable("id", id)
                         .build()
-                every { itemService.delete("101") } returns Mono.empty()
+                every { itemService.delete(id) } returns Mono.empty()
                 StepVerifier
                     .create(itemHandler.delete(request))
                     .expectNextMatches { it.statusCode().is2xxSuccessful }

@@ -18,7 +18,7 @@ class ItemUseCaseTest :
                 ItemDomain(
                     name = "iPhone",
                     price = 10.0.toBigDecimal(),
-                    category = "Phone"
+                    category = "Phone",
                 )
             it("it should create item") {
                 every { itemRepository.save(any()) } returns Mono.just(itemDomain)

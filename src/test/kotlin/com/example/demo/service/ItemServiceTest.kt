@@ -22,7 +22,7 @@ class ItemServiceTest :
                 id = id,
                 name = "Pen",
                 price = BigDecimal.valueOf(15.0),
-                category = "Stationery"
+                category = "Stationery",
             )
 
         describe("ItemService") {
