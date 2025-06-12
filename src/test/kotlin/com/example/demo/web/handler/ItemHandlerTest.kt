@@ -20,7 +20,7 @@ class ItemHandlerTest :
             ItemWebRequest(
                 name = "Pen",
                 price = 10.0.toBigDecimal(),
-                category = "Stationery",
+                category = "Stationery"
             )
         val itemDomain = ItemWebDomainMapper.toItemDomain(itemWebRequest)
         describe("itemHandler") {
